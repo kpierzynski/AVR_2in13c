@@ -30,8 +30,50 @@ void paper_display(const uint8_t *black, const uint8_t *color)
 
 	paper_cmd(DISPLAY_START_TRANSMISSION2_CMD);
 	for (uint16_t i = 0; i < WIDTH * HEIGHT / 8; i++)
-		paper_data(pgm_read_byte(color + i));
-	// paper_data(0xFF);
+		if (color == NULL)
+			paper_data(0xFF);
+		else
+			paper_data(pgm_read_byte(color + i));
+
+	paper_cmd(DISPLAY_REFRESH_CMD);
+	paper_busy();
+}
+
+void paper_rle_display(const uint8_t *compressed)
+{
+	uint16_t length = pgm_read_byte(compressed) << 8 | pgm_read_byte(compressed + 1);
+	compressed += 2;
+
+	register uint8_t current;
+	register uint8_t next;
+
+	paper_cmd(DISPLAY_START_TRANSMISSION1_CMD);
+
+	while (length)
+	{
+		current = pgm_read_byte(compressed);
+		next = pgm_read_byte(compressed + 1);
+
+		if (current == next)
+		{
+			uint8_t len = pgm_read_byte(compressed + 2);
+			while (len--)
+				paper_data(~current);
+
+			compressed += 3;
+			length -= 3;
+		}
+		else
+		{
+			paper_data(~current);
+			compressed++;
+			length--;
+		}
+	}
+
+	paper_cmd(DISPLAY_START_TRANSMISSION2_CMD);
+	for (uint16_t i = 0; i < WIDTH * HEIGHT / 8; i++)
+		paper_data(0xFF);
 
 	paper_cmd(DISPLAY_REFRESH_CMD);
 	paper_busy();

@@ -7,6 +7,7 @@
 #include "paper.h"
 
 #include "./images/city.h"
+#include "./images/example_prepared_rle.h"
 
 int main()
 {
@@ -16,7 +17,16 @@ int main()
 
 	DDRD |= (1 << PD6); // LED
 
+	paper_clear();
+	_delay_ms(5000);
+
+	paper_rle_display(example_prepared);
+	_delay_ms(5000);
+
+	// Second argument, color data can be NULL.
 	paper_display(city_black, city_color);
+	_delay_ms(5000);
+
 	paper_sleep();
 
 	while (1)

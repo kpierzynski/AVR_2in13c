@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
+#include <stddef.h>
 
 #include "paper_mem.h"
 #include "spi.h"
@@ -44,6 +45,7 @@
 #define BUSY_PULLUP PORT_BUSY |= (1 << BUSY)
 
 void paper_init();
+void paper_rle_display(const uint8_t *compressed);
 void paper_display(const uint8_t *black, const uint8_t *color);
 void paper_clear();
 void paper_sleep();

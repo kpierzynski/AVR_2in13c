@@ -14,7 +14,7 @@ TARGET=main
 SRC_DIRS=.
 BUILD_DIR=./build
 
-SRCS= $(shell find $(SRC_DIRS) -name '*.c')
+SRCS= $(shell find $(SRC_DIRS) -name '*.c' -not -path './rle_converter/*')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 $(BUILD_DIR)/${TARGET}: $(OBJS)
