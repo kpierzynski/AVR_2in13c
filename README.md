@@ -2,11 +2,10 @@
 
 ## This library is created for WaveShare 2.13inch white,black,yellow (or red) version of the epaper display.
 
-Library uses saved in progmem images to display on epaper
-
-In rle_converter there are two programs: bmp2c and c2rle.
-bmp2c converts monochrome bmp to C array. Note that image has to be rotated to left and then flipped vertically to work.
-c2rle compress array from bmp2c and produce compressed result.
+- Library uses saved in PROGMEM images to display on epaper
+- In rle_converter there are two programs: bmp2c and c2rle.
+- bmp2c converts monochrome bmp to C array. Note that image has to be rotated to left and then flipped vertically to work.
+- c2rle compress array from bmp2c and produce compressed result.
 
 # Functions
 
